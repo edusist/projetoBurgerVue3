@@ -1,9 +1,9 @@
 <template>
     <div>
         <!-- <p>Formulário de componentes do hamburger</p> -->
-        <p>Componente de mensagem</p>
+        <message :msg="msg" v-show="msg"/>
         <div>
-            <form id="burger-form">
+            <form id="burger-form" @submit="createBurger">
                 <div id="input-container">
                     <label for="nome">Nome do Cliente:</label>
                     <input type="text" id="nome" name="nome" v-model="nome" placeholder="Digite seu nome">
@@ -32,9 +32,9 @@
                     <label id="opcionais-title" for="opcionais">Selecione os opcionais:</label>
                     <div class="checkbox-container" v-for="opcional in opcionaisData" :key="opcional.id">
                         <input type="checkbox" name="opcionais" id="opcionais" v-model="opcionais" :value="opcional.tipo">
-                        <span>{{opcional.tipo}}</span>
+                        <span>{{ opcional.tipo }}</span>
                     </div>
-                
+
                 </div>
                 <div id="input-container">
                     <input type="submit" value="Criar meu Burger" class="submit-btn">
@@ -45,10 +45,12 @@
 </template>
 
 <script>
+import Message from './Message.vue';
 
 
 export default {
     name: 'BurgerForm',
+        
     data() {
         return {
             paes: null,
@@ -58,15 +60,18 @@ export default {
             pao: null,
             carne: null,
             opcionais: [],
-            status: 'Solicitado',
+            status: null,
             msg: null
         }
     },
-   
+
     methods: {
         //Trazer os ingredientes do BD Json
-        async getIngredientes(){
-            const requisacao = await fetch('http://localhost:3000/ingredientes');
+        async getIngredientes() {
+            //Função fetch me promete entregar alguma coisa
+            const requisacao = await fetch('http://localhost:3000/ingredientes');//Endpoint e url final 
+
+            //await(espera) recebe uma Promise e a transforma em um valor de retorno  (ou lança uma exceção em caso de erro).
             const data = await requisacao.json();
             // console.log(data);
 
@@ -74,12 +79,56 @@ export default {
             this.paes = data.paes;
             this.carnes = data.carnes;
             this.opcionaisData = data.opcionais;
+        },
+        // Adicionar os itens no bd
+        async createBurger(e) {
+
+            e.preventDefault();
+            // console.log('Criou um hamburger');
+            const data = {
+                nome: this.nome,
+                carne: this.carne,
+                pao: this.pao,
+                opcionais: Array.from(this.opcionais),
+                status:  'Solicitado',
+            }
+            //Transformar os dados no string Json
+            const dataJson = JSON.stringify(data);
+            //Fetch vai na API e traz tal resultado, tenho que informar qual url quero pegar o resultado
+            // await -> retorne uma promessa
+            //Tenho adicionar burger em array vazio no BD 
+            const req = await fetch("http://localhost:3000/burgers", {
+                method: "POST",
+                headers: { "Content-Type" : "application/json" }, //Comunicação feita por JSON
+                body:  dataJson
+
+            });
+
+            //Espero uma resposta
+            const res = await req.json();
+            // console.log(res);
+
+            //Limpar mensagem
+            setTimeout(() => this.msg = "",  3000);
+
+            //Mensagem do sistema
+            this.msg = `Pedido Nº ${res.id} realizado com sucesso`
+            
+            //Limpa os campos 
+            this.nome      = '';
+            this.carne     = '';
+            this.pao       = '';
+            this.opcionais = '';
+            // console.log(data );
         }
     },
     //Quanto inicializar a página carrega a função getIngredientes 
     // LifeCycle Hooks
-    mounted(){
+    mounted() {
         this.getIngredientes();
+    },
+    components:{
+        Message
     }
 }
 
@@ -125,6 +174,7 @@ select {
     align-items: flex-start;
     width: 50%;
     margin-bottom: 20px;
+    margin-top: 20px;
 
 }
 
@@ -153,4 +203,5 @@ select {
 .submit-btn:hover {
     background-color: transparent;
     color: #222;
-}</style>
+}
+</style>
