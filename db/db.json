@@ -79,7 +79,7 @@
   ],
   "burgers": [
     {
-      "id": "3f4b",
+      "id": "1",
       "nome": "Té",
       "carne": "Picanha",
       "pao": "Italiano Branco",
@@ -91,7 +91,7 @@
       "status": "Solicitado"
     },
     {
-      "id": "03de",
+      "id": "2",
       "nome": "Terezinha",
       "carne": "Alcatra",
       "pao": "3 Queijos",
@@ -102,7 +102,7 @@
       "status": "Solicitado"
     },
     {
-      "id": "0f3d",
+      "id": "3",
       "nome": "Maria",
       "carne": "Picanha",
       "pao": "3 Queijos",
@@ -113,7 +113,7 @@
       "status": "Solicitado"
     },
     {
-      "id": "82ee",
+      "id": "4",
       "nome": "Quezia",
       "carne": "Veggie burger",
       "pao": "Italiano Branco",
@@ -124,7 +124,7 @@
       "status": "Solicitado"
     },
     {
-      "id": "63d5",
+      "id": "5",
       "nome": "Cida",
       "carne": "Alcatra",
       "pao": "3 Queijos",
@@ -132,6 +132,31 @@
         "Tomate",
         "Salame",
         "Pepino"
+      ],
+      "status": "Solicitado"
+    },
+    {
+      "id": "6",
+      "nome": "Estela",
+      "carne": "Veggie burger",
+      "pao": "Italiano Branco",
+      "opcionais": [
+        "Tomate",
+        "Cebola roxa",
+        "Pepino"
+      ],
+      "status": "Solicitado"
+    },
+    {
+      "id": "07ce",
+      "nome": "Payet ",
+      "carne": "Alcatra",
+      "pao": "Italiano Branco",
+      "opcionais": [
+        "Pepino",
+        "Cebola roxa",
+        "Tomate",
+        "Bacon"
       ],
       "status": "Solicitado"
     }
