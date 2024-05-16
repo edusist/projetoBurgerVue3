@@ -1,5 +1,6 @@
 <template>
     <div id="burger-table">
+        <message :msg="msg" v-show="msg" />
         <div id="burger-table-heading">
             <div class="order-id">#:</div>
             <div>Cliente:</div>
@@ -23,9 +24,9 @@
                     </ul>
                 </div>
                 <div>
-                    <select name="status" class="status">
+                    <select name="status" class="status" @change="updateBurger($event, burger.id)">
                         <option value="">Selecione</option>
-                        <option v-for="stt in status" :key="stt.id" value="stt.tipo" :selected="burger.status == stt.tipo">
+                        <option v-for="stt in status" :key="stt.id" :value="stt.tipo" :selected="burger.status == stt.tipo">
                             {{ stt.tipo }}
                         </option>
                     </select>
@@ -38,15 +39,23 @@
 </template>
 
 <script>
+import Message from "./Message.vue"
 export default {
     name: 'Dashboard',
+
+    components: {
+        Message
+    },
+
     data() {
         return {
             burgers: null,
             burgers_id: null,
-            status: []
+            status: [],
+            msg: null
         }
     },
+
     methods: {   //Todas as Funções
 
         //Função Assincrona  traz os Pedidos
@@ -71,8 +80,6 @@ export default {
             const data = await req.json();
 
             this.status = data;
-
-
         },
 
         //Função Assincrona Deleta Hamburgue
@@ -85,7 +92,10 @@ export default {
 
             const res = await req.json();
 
-            //msg
+            //Mensagem do sistema
+            this.msg = `Pedido removido com sucesso!`;
+            //Limpar mensagem
+            setTimeout(() => this.msg = "", 3000);
 
             //Atualiza os dados lista pedidos
             this.getPedidos();
@@ -93,9 +103,33 @@ export default {
         },
 
         //Função Assincrona atualizar Hamburguer
-        async updateBurger(event, id){
+        async updateBurger(event, id) {
 
-            const option = event.target 
+            //Vai pegar o valor que usuário digitou 
+            //event.target -> Obtenha o elemento onde o evento ocorreu
+            //event.target.value ->Obtenha o valor do elemento
+            const option = event.target.value;
+
+            const dataJson = JSON.stringify({ status: option });
+
+            const req = await fetch(`http://localhost:3000/burgers/${id}`, {
+                //PATCH -> Atualiza somente o que foi enviado no caso o status, as outras informações não serão alteradas
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },//Comunicação feita por JSON  
+                body: dataJson
+
+            });
+
+            const res = await req.json();//Depois vai ser obtida a resposta 
+            // console.log(res);
+
+            //Mensagem do sistema
+            this.msg = `O Pedido Nº ${res.id} foi alterado para ${res.status}!`;
+            //Limpar mensagem
+            setTimeout(() => this.msg = "", 3000);
+
+            //Atualiza os dados lista pedidos
+            this.getPedidos();
         }
 
     },

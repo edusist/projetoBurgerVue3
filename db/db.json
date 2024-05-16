@@ -88,7 +88,7 @@
         "Tomate",
         "Cebola roxa"
       ],
-      "status": "Solicitado"
+      "status": "Em produção"
     },
     {
       "id": "2",
@@ -110,7 +110,7 @@
         "Salame",
         "Bacon"
       ],
-      "status": "Solicitado"
+      "status": "Em produção"
     },
     {
       "id": "4",
@@ -121,7 +121,7 @@
         "Pepino",
         "Cebola roxa"
       ],
-      "status": "Solicitado"
+      "status": "stt.tipo"
     },
     {
       "id": "5",
@@ -133,7 +133,7 @@
         "Salame",
         "Pepino"
       ],
-      "status": "Solicitado"
+      "status": "Finalizado"
     },
     {
       "id": "6",
@@ -145,20 +145,7 @@
         "Cebola roxa",
         "Pepino"
       ],
-      "status": "Solicitado"
-    },
-    {
-      "id": "07ce",
-      "nome": "Payet ",
-      "carne": "Alcatra",
-      "pao": "Italiano Branco",
-      "opcionais": [
-        "Pepino",
-        "Cebola roxa",
-        "Tomate",
-        "Bacon"
-      ],
-      "status": "Solicitado"
+      "status": "Finalizado"
     }
   ]
 }
