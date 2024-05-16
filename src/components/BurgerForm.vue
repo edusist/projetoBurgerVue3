@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- <p>Formulário de componentes do hamburger</p> -->
-        <message :msg="msg" v-show="msg"/>
+        <message :msg="msg" v-show="msg" />
         <div>
             <form id="burger-form" @submit="createBurger">
                 <div id="input-container">
@@ -50,7 +50,7 @@ import Message from './Message.vue';
 
 export default {
     name: 'BurgerForm',
-        
+
     data() {
         return {
             paes: null,
@@ -90,7 +90,7 @@ export default {
                 carne: this.carne,
                 pao: this.pao,
                 opcionais: Array.from(this.opcionais),
-                status:  'Solicitado',
+                status: 'Solicitado',
             }
             //Transformar os dados no string Json
             const dataJson = JSON.stringify(data);
@@ -99,8 +99,8 @@ export default {
             //Tenho adicionar burger em array vazio no BD 
             const req = await fetch("http://localhost:3000/burgers", {
                 method: "POST",
-                headers: { "Content-Type" : "application/json" }, //Comunicação feita por JSON
-                body:  dataJson
+                headers: { "Content-Type": "application/json" }, //Comunicação feita por JSON
+                body: dataJson
 
             });
 
@@ -108,16 +108,15 @@ export default {
             const res = await req.json();
             // console.log(res);
 
-            //Limpar mensagem
-            setTimeout(() => this.msg = "",  3000);
-
             //Mensagem do sistema
             this.msg = `Pedido Nº ${res.id} realizado com sucesso`
-            
+            //Limpar mensagem
+            setTimeout(() => this.msg = "", 3000);
+
             //Limpa os campos 
-            this.nome      = '';
-            this.carne     = '';
-            this.pao       = '';
+            this.nome = '';
+            this.carne = '';
+            this.pao = '';
             this.opcionais = '';
             // console.log(data );
         }
@@ -127,7 +126,7 @@ export default {
     mounted() {
         this.getIngredientes();
     },
-    components:{
+    components: {
         Message
     }
 }
